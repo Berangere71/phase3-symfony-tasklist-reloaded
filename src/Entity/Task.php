@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Enums\TaskStatus;
-use App\Enums\PriorityType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -16,17 +14,14 @@ class Task
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $title = null;
-    
-    #[ORM\Column]
-    private ?bool $isPinned = null;
 
     #[ORM\Column(enumType: TaskStatus::class)]
     private ?TaskStatus $status = null;
 
-    #[ORM\Column(enumType: PriorityType::class, nullable: true)]
-    private ?PriorityType $priority = null;
+    #[ORM\Column]
+    private ?bool $isPinned = null;
 
     public function getId(): ?int
     {
@@ -45,18 +40,6 @@ class Task
         return $this;
     }
 
-    public function isPinned(): ?bool
-    {
-        return $this->isPinned;
-    }
-
-    public function setIsPinned(bool $isPinned): static
-    {
-        $this->isPinned = $isPinned;
-
-        return $this;
-    }
-
     public function getStatus(): ?TaskStatus
     {
         return $this->status;
@@ -69,15 +52,15 @@ class Task
         return $this;
     }
 
-    
-public function getPriority(): ?PriorityType
-{
-    return $this->priority;
-}
+    public function isPinned(): ?bool
+    {
+        return $this->isPinned;
+    }
 
-public function setPriority(?PriorityType $priority): static
-{
-    $this->priority = $priority;
-    return $this;
-}
+    public function setIsPinned(bool $isPinned): static
+    {
+        $this->isPinned = $isPinned;
+
+        return $this;
+    }
 }

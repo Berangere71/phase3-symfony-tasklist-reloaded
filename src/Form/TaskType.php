@@ -13,8 +13,8 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('isPinned')
             ->add('status')
+            ->add('isPinned')
         ;
     }
 
