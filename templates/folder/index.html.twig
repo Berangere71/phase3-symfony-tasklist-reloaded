@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Folder index{% endblock %}
+{% block title %}Dossier index{% endblock %}
 
 {% block body %}
-    <h1>Folder index</h1>
+    <h1>Dossier index</h1>
 
     <table class="table">
         <thead>
@@ -19,17 +19,17 @@
                 <td>{{ folder.id }}</td>
                 <td>{{ folder.name }}</td>
                 <td>
-                    <a href="{{ path('app_folder_show', {'id': folder.id}) }}">show</a>
+                    <a href="{{ path('app_folder_show', {'id': folder.id}) }}">Tous</a>
                     <a href="{{ path('app_folder_edit', {'id': folder.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">l'enregistrement non trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_folder_new') }}">Create new</a>
+    <a href="{{ path('app_folder_new') }}">nouveau</a>
 {% endblock %}

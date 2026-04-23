@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Folder{% endblock %}
+{% block title %}Créer un dossier{% endblock %}
 
 {% block body %}
     <h1>Edit Folder</h1>
 
     {{ include('folder/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_folder_index') }}">back to list</a>
+    <a href="{{ path('app_folder_index') }}">Retour à la liste</a>
 
     {{ include('folder/_delete_form.html.twig') }}
 {% endblock %}
