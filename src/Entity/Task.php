@@ -18,7 +18,7 @@ class Task
     private ?string $title = null;
 
     #[ORM\Column(enumType: TaskStatus::class)]
-    private ?TaskStatus $status = TaskStatus:: Pending ;
+    private TaskStatus $status = TaskStatus:: Pending ;
 
     #[ORM\Column]
     private ?bool $isPinned = false;
@@ -40,7 +40,7 @@ class Task
         return $this;
     }
 
-    public function getStatus(): ?TaskStatus
+    public function getStatus(): TaskStatus
     {
         return $this->status;
     }

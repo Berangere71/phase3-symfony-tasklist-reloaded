@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Entity;
 
-use App\Repository\FolderRepository;
+use App\Repository\PriorityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FolderRepository::class)]
-class Folder
+#[ORM\Entity(repositoryClass: PriorityRepository::class)]
+class Priority
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,14 +15,14 @@ class Folder
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 7, nullable: true)]
-    private ?string $color = '#6366f1';  // ← ajoute cette propriété
+    #[ORM\Column]
+    private ?int $importance = null;
 
     public function getId(): ?int { return $this->id; }
 
     public function getName(): ?string { return $this->name; }
     public function setName(string $name): static { $this->name = $name; return $this; }
 
-    public function getColor(): ?string { return $this->color; }  // ← getter
-    public function setColor(?string $color): static { $this->color = $color; return $this; }  // ← setter
+    public function getImportance(): ?int { return $this->importance; }
+    public function setImportance(int $importance): static { $this->importance = $importance; return $this; }
 }
