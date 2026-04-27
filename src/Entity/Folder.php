@@ -13,8 +13,9 @@ class Folder
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
+    private ?string $color = '#6366f1';
 
     public function getId(): ?int
     {

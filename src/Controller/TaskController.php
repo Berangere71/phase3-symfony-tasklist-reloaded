@@ -59,7 +59,7 @@ final class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('task/edit.html.twig', [
@@ -76,6 +76,6 @@ final class TaskController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

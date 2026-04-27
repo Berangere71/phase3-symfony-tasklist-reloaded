@@ -14,14 +14,14 @@ class Task
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(enumType: TaskStatus::class)]
-    private ?TaskStatus $status = null;
+    private ?TaskStatus $status = TaskStatus:: Pending ;
 
     #[ORM\Column]
-    private ?bool $isPinned = null;
+    private ?bool $isPinned = false;
 
     public function getId(): ?int
     {
@@ -63,4 +63,38 @@ class Task
 
         return $this;
     }
+
+    #[ORM\ManyToOne(targetEntity: Priority::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Priority $priority = null;
+
+    #[ORM\ManyToOne(targetEntity: Folder::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Folder $folder = null;
+
+    // Ajoutez le Getter et le Setter pour Priority
+    public function getPriority(): ?Priority
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?Priority $priority): static
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    // Ajoutez le Getter et le Setter pour Folder
+    public function getFolder(): ?Folder
+    {
+        return $this->folder;
+    }
+
+    public function setFolder(?Folder $folder): static
+    {
+        $this->folder = $folder;
+        return $this;
+    }
+
+
 }

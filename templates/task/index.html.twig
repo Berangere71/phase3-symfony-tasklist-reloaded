@@ -20,7 +20,7 @@
             <tr>
                 <td>{{ task.id }}</td>
                 <td>{{ task.title }}</td>
-                <td>{{ task.status }}</td>
+                <td>{{ task.status.value }}</td>
                 <td>{{ task.isPinned ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('app_task_show', {'id': task.id}) }}">show</a>
