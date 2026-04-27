@@ -2,26 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Task;
+use App\Entity\Priority;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TaskType extends AbstractType
+class PriorityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('status')
-            ->add('isPinned')
+            ->add('name')
+            ->add('importance')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Task::class,
+            'data_class' => Priority::class,
         ]);
     }
 }
