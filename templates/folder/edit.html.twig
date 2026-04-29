@@ -31,22 +31,7 @@
 
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2">Couleur</label>
-            {{ form_widget(form.color, {attr: {id: 'color-input', class: 'w-full h-10 rounded-lg border border-gray-200'}}) }}
-            <div class="grid grid-cols-8 gap-2" id="color-picker">
-                {% set colors = [
-                    '#ef4444', '#f97316', '#f59e0b', '#eab308',
-                    '#84cc16', '#22c55e', '#10b981', '#14b8a6',
-                    '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1',
-                    '#8b5cf6', '#a855f7', '#d946ef', '#ec4899'
-                ] %}
-                {% for color in colors %}
-                    <button type="button"
-                            data-color="{{ color }}"
-                            class="color-swatch w-9 h-9 rounded-lg transition-all ring-offset-2 hover:scale-110"
-                            style="background-color: {{ color }}">
-                    </button>
-                {% endfor %}
-            </div>
+            {{ form_widget(form.color, {attr: {class: 'w-full h-10 rounded-lg border border-gray-200'}}) }}
         </div>
 
         <div class="flex justify-end gap-2">
@@ -66,35 +51,4 @@
 
 </div>
 
-<script>
-function getColorInput() {
-    return document.getElementById('color-input') || document.querySelector('input[name$="[color]"]');
-}
-
-function selectColor(hex) {
-    const input = getColorInput();
-    if (!input) {
-        return;
-    }
-
-    input.value = hex;
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-
-    document.querySelectorAll('.color-swatch').forEach(btn => {
-        const isSelected = btn.dataset.color === hex;
-        btn.classList.toggle('ring-2', isSelected);
-        btn.classList.toggle('ring-gray-900', isSelected);
-        btn.classList.toggle('scale-110', isSelected);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.color-swatch').forEach(btn => {
-        btn.addEventListener('click', () => selectColor(btn.dataset.color));
-    });
-
-    const initialColor = getColorInput()?.value || '#ef4444';
-    selectColor(initialColor);
-});
-</script>
 {% endblock %}

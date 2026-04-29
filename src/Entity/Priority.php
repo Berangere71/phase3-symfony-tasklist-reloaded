@@ -18,6 +18,12 @@ class Priority
     #[ORM\Column]
     private ?int $importance = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $bgColor = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $textColor = null;
+
     public function getId(): ?int { return $this->id; }
 
     public function getName(): ?string { return $this->name; }
@@ -25,4 +31,10 @@ class Priority
 
     public function getImportance(): ?int { return $this->importance; }
     public function setImportance(int $importance): static { $this->importance = $importance; return $this; }
+
+    public function getBgColor(): ?string { return $this->bgColor; }
+    public function setBgColor(?string $bgColor): static { $this->bgColor = $bgColor; return $this; }
+
+    public function getTextColor(): ?string { return $this->textColor; }
+    public function setTextColor(?string $textColor): static { $this->textColor = $textColor; return $this; }
 }

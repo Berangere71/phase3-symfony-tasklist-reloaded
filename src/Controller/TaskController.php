@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Enums\TaskStatus;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,16 +44,48 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_task_show', methods: ['GET'])]
-    public function show(Task $task): Response
+    public function show(?Task $task): Response
     {
+        if (!$task) {
+            $this->addFlash('error', 'Tâche introuvable.');
+            return $this->redirectToRoute('dashboard');
+        }
+
         return $this->render('task/show.html.twig', [
             'task' => $task,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/archive', name: 'app_task_archive', methods: ['POST'])]
+    public function archive(?Task $task, EntityManagerInterface $entityManager): Response
     {
+        if (!$task) {
+            $this->addFlash('error', 'Tâche introuvable.');
+            return $this->redirectToRoute('dashboard');
+        }
+
+        // Bascule l'état archivé/non-archivé
+        if ($task->getStatus() === TaskStatus::Completed) {
+            // Désarchiver : revenir à "à faire"
+            $task->setStatus(TaskStatus::Pending);
+        } else {
+            // Archiver
+            $task->setStatus(TaskStatus::Completed);
+        }
+        $task->setIsPinned(false);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, ?Task $task, EntityManagerInterface $entityManager): Response
+    {
+        if (!$task) {
+            $this->addFlash('error', 'Tâche introuvable.');
+            return $this->redirectToRoute('dashboard');
+        }
+
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -69,8 +102,13 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_task_delete', methods: ['POST'])]
-    public function delete(Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, ?Task $task, EntityManagerInterface $entityManager): Response
     {
+        if (!$task) {
+            $this->addFlash('error', 'Tâche introuvable.');
+            return $this->redirectToRoute('dashboard');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($task);
             $entityManager->flush();
@@ -79,3 +117,4 @@ final class TaskController extends AbstractController
         return $this->redirectToRoute('dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }
+

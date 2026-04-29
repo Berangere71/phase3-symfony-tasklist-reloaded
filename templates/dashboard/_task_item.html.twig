@@ -1,0 +1,59 @@
+<div class="bg-white border border-gray-200 rounded-xl px-5 py-4 flex items-center justify-between hover:shadow-sm transition group">
+
+    {# Checkbox pour archiver à gauche #}
+    <form method="post" action="{{ path('app_task_archive', {id: task.id}) }}" style="display: inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('archive' ~ task.id) }}">
+        <input type="checkbox"
+               class="w-5 h-5 rounded border-gray-300 text-green-600 cursor-pointer"
+               onchange="this.form.submit()"
+               {% if task.status.value == 'terminé' %}checked{% endif %}>
+    </form>
+
+    {# Nom et status #}
+    <div class="flex-1 ml-4">
+        <span class="text-sm font-medium text-gray-800 block
+                     {{ task.status.value == 'terminé' ? 'line-through text-gray-400' }}">
+            {{ task.title }}
+        </span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-1
+            {{ task.status.value == 'terminé'    ? 'bg-green-100 text-green-700' :
+               task.status.value == 'en cours'   ? 'bg-blue-100 text-blue-700' :
+                                                   'bg-gray-100 text-gray-600' }}">
+            {{ task.status.value == 'terminé'    ? 'Terminé' :
+               task.status.value == 'en cours'   ? 'En cours' : 'À faire' }}
+        </span>
+    </div>
+
+    {# Priorité à droite #}
+    <div class="flex-shrink-0 mx-4">
+        {% if task.priority is defined and task.priority %}
+            <span class="text-xs font-medium px-2 py-1 rounded {{ task.priority.bgColor }} {{ task.priority.textColor }}">
+                {{ task.priority.name }}
+            </span>
+        {% else %}
+            <span class="text-xs text-gray-400">-</span>
+        {% endif %}
+    </div>
+
+    {# Actions #}
+    <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
+        <a href="{{ path('app_task_edit', {id: task.id}) }}"
+           class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+        </a>
+        <form method="post" action="{{ path('app_task_delete', {id: task.id}) }}"
+              onsubmit="return confirm('Supprimer cette tâche ?')">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+            <button type="submit"
+                    class="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>
