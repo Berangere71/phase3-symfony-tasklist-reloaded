@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Priority;
@@ -37,6 +38,14 @@ final class PriorityController extends AbstractController
         return $this->render('priority/new.html.twig', [
             'priority' => $priority,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_priority_show', methods: ['GET'])]
+    public function show(Priority $priority): Response
+    {
+        return $this->render('priority/show.html.twig', [
+            'priority' => $priority,
         ]);
     }
 

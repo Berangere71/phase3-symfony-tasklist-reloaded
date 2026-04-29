@@ -41,6 +41,14 @@ final class FolderController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'app_folder_show', methods: ['GET'])]
+    public function show(Folder $folder): Response
+    {
+        return $this->render('folder/show.html.twig', [
+            'folder' => $folder,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_folder_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Folder $folder, EntityManagerInterface $entityManager): Response
     {
@@ -65,6 +73,7 @@ final class FolderController extends AbstractController
             $entityManager->remove($folder);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('app_folder_index', [], Response::HTTP_SEE_OTHER);
     }
 }
