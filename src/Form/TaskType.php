@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Folder;
+use App\Entity\Priority;
 use App\Entity\Task;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +18,18 @@ class TaskType extends AbstractType
             ->add('title')
             ->add('status')
             ->add('isPinned')
+            ->add('priority', EntityType::class, [
+                'class' => Priority::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner une priorité',
+                'required' => false,
+            ])
+            ->add('folder', EntityType::class, [
+                'class' => Folder::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner un dossier',
+                'required' => false,
+            ])
         ;
     }
 
